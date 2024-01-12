@@ -1,0 +1,10 @@
+{
+    "student_csv_file": "students.csv",
+    "max_messages": -1,
+    "max_time": "1h",
+    "min_delay": 15,
+    "max_timeout": 30,
+    "max_retries": 5,
+    "handshake_url": "https://app.joinhandshake.com/edu",
+    "chromedriver_path": "chromedriver-win64"
+}
