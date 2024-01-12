@@ -13,3 +13,15 @@ logging.basicConfig(
 logging.info("Log started")
 
 
+class Driver:
+    def __init__(self):
+        pass
+
+    def run(self):
+        pass
+
+    def load(self):
+        pass
+
+
+Driver().run()
