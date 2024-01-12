@@ -1,5 +1,9 @@
+
 import logging
 from types.student import Student
+from pyparsing import nestedExpr
+
+
 class Messager:
     def __init__(self):
         pass
@@ -16,6 +20,12 @@ class Messager:
 
     def parse_message(self, student: Student, message: str):
         pass
+        parsed_message = nestedExpr('{', '}').parseString(message).asList()
+        if len(parsed_message) == 0:
+            return message
+
+        # TODO: Iterate through parsed_message list and replace variables with student data
+        return ''.join(parsed_message)
 
     def open_handshake(self):
         pass
