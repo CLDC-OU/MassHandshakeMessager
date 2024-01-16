@@ -75,7 +75,19 @@ class Messager:
         pass
 
     def paste_subject(self, subject):
-        pass
+        if subject is None or subject == "":
+            logging.debug("No subject to paste. Leaving subject field"
+                          "as default")
+            return
+        self.get_send_button()  # Wait for subject field to load
+        self.get_subject_field().send_keys(subject)
+        logging.debug(f"Pasted subject {subject}")
+
+    def get_subject_field(self):
+        return self.config.webdriver.find_element(
+            By.ID,
+            "message-modal-subject"
+        )
 
     def click_send(self):
         pass
