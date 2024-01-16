@@ -15,6 +15,10 @@ class Messager:
 
         self.open_student_page(student)
         self.click_message_button()
+
+        # wait 1 second for modal to load
+        time.sleep(1)
+
         self.paste_message(parsed_message)
         self.click_send()
 
