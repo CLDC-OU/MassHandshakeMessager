@@ -6,7 +6,9 @@ from pyparsing import nestedExpr
 
 class Messager:
     def __init__(self):
-        pass
+        self.config = Config()
+        self.config.load()
+        self.wait = 15
 
     def send_message_to_student(self, student: Student, message):
         self.open_student_page(student)
