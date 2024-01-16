@@ -16,7 +16,9 @@ class Messager:
         self.click_send()
 
     def open_student_page(self, student: Student):
-        pass
+        url = f"{self.config.handshake_url}/users/{student.student_id}"
+        logging.debug(f"Opening {url}")
+        self.config.webdriver.get(url)
 
     def parse_message(self, student: Student, message: str):
         pass
