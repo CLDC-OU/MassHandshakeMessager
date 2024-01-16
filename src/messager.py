@@ -41,3 +41,12 @@ class Messager:
 
     def click_send(self):
         pass
+    @property
+    def wait(self) -> WebDriverWait:
+        return self._wait
+
+    @wait.setter
+    def wait(self, timeout: int):
+        self._wait = WebDriverWait(
+            driver=self.config.webdriver,
+            timeout=timeout)
