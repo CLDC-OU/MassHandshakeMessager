@@ -166,15 +166,15 @@ class Config:
         self.chromedriver_path = config['chromedriver_path']
 
     def verify_students(self):
-        if 'id' not in self.students.columns:
-            message = f"Could not find column 'id' in " \
-                f"{self.config['student_csv_file']}. " \
+        if 'handshake_id' not in self.students.columns:
+            message = f"Could not find column 'handshake_id' in " \
+                f"{self.student_csv_file}. " \
                 f"Please ensure this column exists and try again."
             logging.error(message)
             print(message)
             exit(1)
         logging.info(f"Found {len(self.students)} students in "
-                     f"{self.config['student_csv_file']}")
+                     f"{self.student_csv_file}")
 
     def has_next_student(self):
         return self.index < len(self.students)
@@ -182,7 +182,8 @@ class Config:
     def get_next_student(self):
         if not self.has_next_student():
             return -1
-        id = self.verify_student_id(self.students.iloc[self.index]['id'])
+        id = self.verify_student_id(
+            self.students.iloc[self.index]['handshake_id'])
         self.index += 1
         if id == -1:
             logging.debug(f"Skipping row {self.index} of "
@@ -213,7 +214,7 @@ class Config:
 
     def add_modified(self, student_id, type, action="skip"):
         self.modified.append({
-            "id": student_id,
+            "handshake_id": student_id,
             "row_index": self.index,
             "type": type,
             "action": action})
