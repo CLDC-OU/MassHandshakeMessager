@@ -22,8 +22,11 @@ class Config:
         pass
 
     def load(self):
+        self.load_env()
+        self.load_config()
+        self.load_students()
 
-        # Load environment variables
+    def load_env(self):
         if dotenv.load_dotenv():
             logging.info("Loaded environment variables from .env")
         else:
@@ -35,7 +38,7 @@ class Config:
             logging.info(message)
             print(message)
 
-        # Open the config file
+    def load_config(self):
         config = None
         try:
             with open('config.json') as cfg:
@@ -55,7 +58,7 @@ class Config:
         self.set_config(config)
         logging.info("Config variables initialized")
 
-        # Open the student csv file
+    def load_students(self):
         try:
             with open(self.student_csv_file) as students:
                 self.students = pd.read_csv(students)
