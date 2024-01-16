@@ -1,4 +1,13 @@
 .gitattributes
 .env
-config.json
-message.txt
+logs/
+__pycache__/
+
+*.csv
+!students.example.csv
+
+*json
+!config.example.json
+
+*txt
+!message.example.txt
