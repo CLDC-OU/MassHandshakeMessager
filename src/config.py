@@ -79,6 +79,8 @@ class Config:
         logging.info("Config variables initialized")
 
     def load_students(self):
+        self.index = 0
+        self.modified = []
         try:
             with open(self.student_csv_file) as students:
                 self.students = pd.read_csv(students)
@@ -92,9 +94,6 @@ class Config:
             exit(1)
 
         self.verify_students()
-
-        self.index = 0
-        self.modified = []
 
     def load_selenium(self):
         logging.debug("Initializing Selenium...")
