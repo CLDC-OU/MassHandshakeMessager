@@ -109,6 +109,7 @@ class Config:
         args = ["--disable-popup-blocking"]
         for arg in args:
             chrome_options.add_argument(arg)
+        chrome_options.add_argument(f"user-data-dir={self.chrome_data_dir}")
         # Create a new instance of the Chrome driver
         self.webdriver = webdriver.Chrome(options=chrome_options)
 
