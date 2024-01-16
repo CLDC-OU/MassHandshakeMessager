@@ -174,8 +174,11 @@ class Config:
         logging.info(f"Found {len(self.students)} students in "
                      f"{self.config['student_csv_file']}")
 
+    def has_next_student(self):
+        return self.index < len(self.students)
+
     def get_next_student(self):
-        if self.index >= len(self.students):
+        if not self.has_next_student():
             return -1
         id = self.verify_student_id(self.students.iloc[self.index]['id'])
         self.index += 1
