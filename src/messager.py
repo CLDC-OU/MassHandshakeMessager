@@ -19,6 +19,7 @@ class Messager:
         # wait 1 second for modal to load
         time.sleep(1)
 
+        self.paste_subject(self.config.message_subject)
         self.paste_message(parsed_message)
         self.click_send()
 
