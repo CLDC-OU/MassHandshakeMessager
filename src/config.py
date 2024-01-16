@@ -10,7 +10,8 @@ DEFAULT_CONFIG = {
     "min_delay": 15,
     "max_timeout": 30,
     "max_retries": 5,
-    "handshake_url": "https://app.joinhandshake.com/edu"
+    "handshake_url": "https://app.joinhandshake.com/edu",
+    "chromedriver_path": "chromedriver-win64"
 }
 
 DEFAULT_ENV = "VAL1=\nVAL2=\nVAL3=\n"
@@ -109,6 +110,12 @@ class Config:
                             f"config.json. Setting to default: "
                             f"{DEFAULT_CONFIG['handshake_url']}")
             config['handshake_url'] = DEFAULT_CONFIG['handshake_url']
+        if 'chromedriver_path' not in config:
+            logging.warning(f"Could not find chromedriver_path in "
+                            f"config.json. Setting to default: "
+                            f"{DEFAULT_CONFIG['chromedriver_path']}")
+            config['chromedriver_path'] = DEFAULT_CONFIG['chromedriver_path']
+
         self.student_csv_file = config['student_csv_file']
         self.max_messages = config['max_messages']
         self.max_time = config['max_time']
@@ -116,6 +123,7 @@ class Config:
         self.max_timeout = config['max_timeout']
         self.max_retries = config['max_retries']
         self.handshake_url = config['handshake_url']
+        self.chromedriver_path = config['chromedriver_path']
 
     def verify_students(self):
         if 'id' not in self.students.columns:
@@ -252,3 +260,15 @@ class Config:
         if "joinhandshake.com" not in val:
             raise ValueError("handshake_url must be a Handshake url")
         self.handshake_url = val
+
+    @property
+    def chromedriver_path(self) -> str:
+        return self.chromedriver_path
+
+    @chromedriver_path.setter
+    def chromedriver_path(self, val: str):
+        if not isinstance(val, str):
+            raise ValueError("chromedriver_path must be a string")
+        if not os.path.exists(val):
+            raise ValueError("chromedriver_path must be a valid path")
+        self.chromedriver_path = val
