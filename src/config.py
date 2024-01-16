@@ -107,7 +107,7 @@ class Config:
         for arg in args:
             chrome_options.add_argument(arg)
         # Create a new instance of the Chrome driver
-        self._webdriver = webdriver.Chrome(options=chrome_options)
+        self.webdriver = webdriver.Chrome(options=chrome_options)
 
         logging.debug(f"Initialized new Chrome webdriver instance with the"
                       f"following arguments: [{', '.join(args)}]")
