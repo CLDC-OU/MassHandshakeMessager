@@ -13,7 +13,8 @@ DEFAULT_CONFIG = {
     "max_timeout": 30,
     "max_retries": 5,
     "handshake_url": "https://app.joinhandshake.com/edu",
-    "chromedriver_path": "chromedriver-win64"
+    "chromedriver_path": "chromedriver-win64",
+    "message_subject": None
 }
 
 DEFAULT_ENV = "VAL1=\nVAL2=\nVAL3=\n"
@@ -155,6 +156,11 @@ class Config:
                             f"config.json. Setting to default: "
                             f"{DEFAULT_CONFIG['chromedriver_path']}")
             config['chromedriver_path'] = DEFAULT_CONFIG['chromedriver_path']
+        if 'message_subject' not in config or config['message_subject'] == "":
+            logging.warning(f"Could not find message_subject in "
+                            f"config.json. Setting to default: "
+                            f"{DEFAULT_CONFIG['message_subject']}")
+            config['message_subject'] = DEFAULT_CONFIG['message_subject']
 
         self.student_csv_file = config['student_csv_file']
         self.max_messages = config['max_messages']
@@ -164,6 +170,7 @@ class Config:
         self.max_retries = config['max_retries']
         self.handshake_url = config['handshake_url']
         self.chromedriver_path = config['chromedriver_path']
+        self.message_subject = config['message_subject']
 
     def verify_students(self):
         if 'handshake_id' not in self.students.columns:
@@ -326,3 +333,13 @@ class Config:
         if not os.path.exists(val):
             raise ValueError("chromedriver_path must be a valid path")
         self._chromedriver_path = val
+
+    @property
+    def message_subject(self) -> str | None:
+        return self._message_subject
+
+    @message_subject.setter
+    def message_subject(self, val: str | None):
+        if not isinstance(val, str) and val is not None:
+            raise ValueError("message_subject must be a string or None")
+        self._message_subject = val
