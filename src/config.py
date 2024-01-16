@@ -5,6 +5,8 @@ import pandas as pd
 import dotenv
 from selenium import webdriver
 
+from src.types.student import Student
+
 DEFAULT_CONFIG = {
     "student_csv_file": "students.csv",
     "max_messages": -1,
@@ -195,19 +197,15 @@ class Config:
     def get_next_student(self):
         if not self.has_next_student():
             return -1
-        id = self.verify_student_id(
-            self.students.iloc[self.index]['handshake_id'])
+        student = self.students[self.index]
         self.index += 1
-        if id == -1:
+        if student.student_id == -1:
             logging.debug(f"Skipping row {self.index} of "
                           f"{self.student_csv_file}")
             return self.get_next_student()
-        logging.debug(f"Next student: {id} (row: {self.index})")
-        return id
-
-    def verify_student_id(self, student_id):
-        if not isinstance(student_id, int):
-            logging.warn(f"Student id {student_id} at row {self.index} "
+        logging.debug(f"Next student: {student} "
+                      f"(row: {self.index})")
+        return student
                          f"of {self.student_csv_file} is not an integer. "
                          f"This row will be skipped.")
             self.add_modified(student_id, "not_int", "skip")
