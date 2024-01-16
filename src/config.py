@@ -244,7 +244,7 @@ class Config:
         self.student_csv_file = val
 
     @property
-    def max_messages(self):
+    def max_messages(self) -> int:
         return self.max_messages
 
     @max_messages.setter
@@ -281,7 +281,7 @@ class Config:
         self.min_delay = val
 
     @property
-    def max_timeout(self):
+    def max_timeout(self) -> int:
         return self.max_timeout
 
     @max_timeout.setter
@@ -291,7 +291,7 @@ class Config:
         self.max_timeout = val
 
     @property
-    def max_retries(self):
+    def max_retries(self) -> int:
         return self.max_retries
 
     @max_retries.setter
@@ -301,7 +301,7 @@ class Config:
         self.max_retries = val
 
     @property
-    def handshake_url(self):
+    def handshake_url(self) -> str:
         return self.handshake_url
 
     @handshake_url.setter
