@@ -206,10 +206,21 @@ class Config:
         logging.debug(f"Next student: {student} "
                       f"(row: {self.index})")
         return student
+
+    def verify_student_id(self, student_id: str | int, row_index):
+        if student_id is None:
+            logging.warn(f"Student id {student_id} at row {row_index} "
+                         f"of {self.student_csv_file} is None. "
+                         f"This row will be skipped.")
+            self.add_modified(student_id, "none", "skip")
+            return -1
+        if isinstance(student_id, str) and not student_id.isdigit():
+            logging.warn(f"Student id {student_id} at row {row_index} "
                          f"of {self.student_csv_file} is not an integer. "
                          f"This row will be skipped.")
             self.add_modified(student_id, "not_int", "skip")
             return -1
+        student_id = int(student_id)
         if student_id < 0:
             logging.warn(f"Student id {student_id} at row {self.index} "
                          f"of {self.student_csv_file} is negative. "
