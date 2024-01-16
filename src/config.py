@@ -343,3 +343,13 @@ class Config:
         if not isinstance(val, str) and val is not None:
             raise ValueError("message_subject must be a string or None")
         self._message_subject = val
+
+    @property
+    def students(self) -> pd.DataFrame:
+        return self._students
+
+    @students.setter
+    def students(self, val: pd.DataFrame):
+        if not isinstance(val, pd.DataFrame):
+            raise ValueError("students must be a pandas DataFrame")
+        self._students = val
