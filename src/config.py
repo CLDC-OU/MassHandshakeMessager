@@ -227,37 +227,37 @@ class Config:
 
     @property
     def message(self) -> str:
-        return self.message
+        return self._message
 
     @message.setter
     def message(self, val: str):
         if not isinstance(val, str):
             raise ValueError("message must be a string")
-        self.message = val
+        self._message = val
 
     @property
     def student_csv_file(self) -> str:
-        return self.student_csv_file
+        return self._student_csv_file
 
     @student_csv_file.setter
     def student_csv_file(self, val: str):
         if not isinstance(val, str):
             raise ValueError("student_csv_file must be a string")
-        self.student_csv_file = val
+        self._student_csv_file = val
 
     @property
     def max_messages(self) -> int:
-        return self.max_messages
+        return self._max_messages
 
     @max_messages.setter
     def max_messages(self, val: int):
         if not isinstance(val, int):
             raise ValueError("max_messages must be an integer")
-        self.max_messages = val
+        self._max_messages = val
 
     @property
     def max_time(self) -> int:
-        return self.max_time
+        return self._max_time
 
     @max_time.setter
     def max_time(self, val: str):
@@ -267,44 +267,44 @@ class Config:
             raise ValueError("max_time must be in the format 1h or 1m")
         if "m" in val:
             vals = val.split("m")
-            self.max_time = int(vals[0]) * 60
+            self._max_time = int(vals[0]) * 60
         else:
             vals = val.split("h")
-            self.max_time = int(vals[0]) * 3600
+            self._max_time = int(vals[0]) * 3600
 
     @property
     def min_delay(self) -> int:
-        return self.min_delay
+        return self._min_delay
 
     @min_delay.setter
     def min_delay(self, val: int):
         if not isinstance(val, int):
             raise ValueError("min_delay must be an integer")
-        self.min_delay = val
+        self._min_delay = val
 
     @property
     def max_timeout(self) -> int:
-        return self.max_timeout
+        return self._max_timeout
 
     @max_timeout.setter
     def max_timeout(self, val: int):
         if not isinstance(val, int):
             raise ValueError("max_timeout must be an integer")
-        self.max_timeout = val
+        self._max_timeout = val
 
     @property
     def max_retries(self) -> int:
-        return self.max_retries
+        return self._max_retries
 
     @max_retries.setter
     def max_retries(self, val: int):
         if not isinstance(val, int):
             raise ValueError("max_retries must be an integer")
-        self.max_retries = val
+        self._max_retries = val
 
     @property
     def handshake_url(self) -> str:
-        return self.handshake_url
+        return self._handshake_url
 
     @handshake_url.setter
     def handshake_url(self, val: str):
@@ -312,11 +312,11 @@ class Config:
             raise ValueError("handshake_url must be a string")
         if "joinhandshake.com" not in val:
             raise ValueError("handshake_url must be a Handshake url")
-        self.handshake_url = val
+        self._handshake_url = val
 
     @property
     def chromedriver_path(self) -> str:
-        return self.chromedriver_path
+        return self._chromedriver_path
 
     @chromedriver_path.setter
     def chromedriver_path(self, val: str):
@@ -324,4 +324,4 @@ class Config:
             raise ValueError("chromedriver_path must be a string")
         if not os.path.exists(val):
             raise ValueError("chromedriver_path must be a valid path")
-        self.chromedriver_path = val
+        self._chromedriver_path = val
