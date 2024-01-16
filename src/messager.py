@@ -93,7 +93,14 @@ class Messager:
         )
 
     def click_send(self):
-        pass
+        self.get_send_button().click()
+
+    def get_send_button(self):
+        return self.config.webdriver.find_element(
+            By.XPATH,
+            "//a[contains(@data-bind, 'click: createConversation')]"
+        )
+
     @property
     def wait(self) -> WebDriverWait:
         return self._wait
