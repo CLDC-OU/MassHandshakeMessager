@@ -10,6 +10,14 @@ class Messager:
         self.config.load()
         self.wait = 15
 
+    def run(self):
+        while self.config.has_next_student():
+            student = self.config.get_next_student()
+            if student == -1:
+                logging.info("No more students to message")
+                break
+            self.send_message_to_student(student, self.config.message)
+
     def send_message_to_student(self, student: Student, message):
         parsed_message = self.parse_message(student, message)
 
