@@ -109,14 +109,13 @@ class Config:
                             f"config.json. Setting to default: "
                             f"{DEFAULT_CONFIG['handshake_url']}")
             config['handshake_url'] = DEFAULT_CONFIG['handshake_url']
-
-        self.student_csv_file = self.config['student_csv_file']
-        self.max_messages = self.config['max_messages']
-        self.max_time = self.config['max_time']
-        self.min_delay = self.config['min_delay']
-        self.max_timeout = self.config['max_timeout']
-        self.max_retries = self.config['max_retries']
-        self.handshake_url = self.config['handshake_url']
+        self.student_csv_file = config['student_csv_file']
+        self.max_messages = config['max_messages']
+        self.max_time = config['max_time']
+        self.min_delay = config['min_delay']
+        self.max_timeout = config['max_timeout']
+        self.max_retries = config['max_retries']
+        self.handshake_url = config['handshake_url']
 
     def verify_students(self):
         if 'id' not in self.students.columns:
