@@ -25,6 +25,20 @@ class Config:
         self.load_env()
         self.load_config()
         self.load_students()
+        self.load_message()
+    def load_message(self):
+        logging.info("loading message file")
+        try:
+            with open('message.txt') as msg:
+                self.message = msg.read()
+        except FileNotFoundError:
+            with open('message.txt', 'w') as msg:
+                msg.write("")
+            message = "Created message.txt file. Please edit this file " \
+                "with your desired message and run again."
+            logging.info(message)
+            print(message)
+            exit(0)
 
     def load_env(self):
         if dotenv.load_dotenv():
