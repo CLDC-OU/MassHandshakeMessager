@@ -224,6 +224,16 @@ class Config:
         logging.info(f"Saved {len(self.modified)} modified students to {mod}")
 
     @property
+    def message(self) -> str:
+        return self.message
+
+    @message.setter
+    def message(self, val: str):
+        if not isinstance(val, str):
+            raise ValueError("message must be a string")
+        self.message = val
+
+    @property
     def student_csv_file(self) -> str:
         return self.student_csv_file
 
