@@ -238,6 +238,16 @@ class Config:
         logging.info(f"Saved {len(self.modified)} modified students to {mod}")
 
     @property
+    def index(self) -> int:
+        return self._index
+
+    @index.setter
+    def index(self, val: int):
+        if not isinstance(val, int):
+            raise ValueError("index must be an integer")
+        self._index = val
+
+    @property
     def message(self) -> str:
         return self._message
 
