@@ -349,14 +349,32 @@ class Config:
         self._message_subject = val
 
     @property
-    def students(self) -> pd.DataFrame:
+    def students(self) -> list[Student]:
         return self._students
 
     @students.setter
     def students(self, val: pd.DataFrame):
+        self._students = []
         if not isinstance(val, pd.DataFrame):
             raise ValueError("students must be a pandas DataFrame")
-        self._students = val
+        for row in range(len(val)):
+            student_row = val.iloc[row]
+            id = self.verify_student_id(student_row.get("handshake_id"), row)
+            self._students.append(Student(
+                student_id=id,
+                data=student_row.to_dict()
+            ))
+
+    @property
+    def modified(self) -> list[dict]:
+        return self._modified
+
+    @modified.setter
+    def modified(self, val: list[dict]):
+        if not isinstance(val, list):
+            raise ValueError("modified must be a list")
+        self._modified = val
+
     @property
     def chrome_data_dir(self) -> str:
         return self._chrome_data_dir
