@@ -14,7 +14,8 @@ DEFAULT_CONFIG = {
     "max_retries": 5,
     "handshake_url": "https://app.joinhandshake.com/edu",
     "chromedriver_path": "chromedriver-win64",
-    "message_subject": None
+    "message_subject": None,
+    "chrome_data_dir": "%HOMEPATH%\\AppData\\Local\\Google\\Chrome\\User Data"
 }
 
 DEFAULT_ENV = "VAL1=\nVAL2=\nVAL3=\n"
@@ -161,6 +162,11 @@ class Config:
                             f"config.json. Setting to default: "
                             f"{DEFAULT_CONFIG['message_subject']}")
             config['message_subject'] = DEFAULT_CONFIG['message_subject']
+        if 'chrome_data_dir' not in config or config['chrome_data_dir'] == "":
+            logging.warning(f"Could not find chrome_data_dir in "
+                            f"config.json. Setting to default: "
+                            f"{DEFAULT_CONFIG['chrome_data_dir']}")
+            config['chrome_data_dir'] = DEFAULT_CONFIG['chrome_data_dir']
 
         self.student_csv_file = config['student_csv_file']
         self.max_messages = config['max_messages']
@@ -171,6 +177,7 @@ class Config:
         self.handshake_url = config['handshake_url']
         self.chromedriver_path = config['chromedriver_path']
         self.message_subject = config['message_subject']
+        self.chrome_data_dir = config['chrome_data_dir']
 
     def verify_students(self):
         if 'handshake_id' not in self.students.columns:
@@ -353,3 +360,12 @@ class Config:
         if not isinstance(val, pd.DataFrame):
             raise ValueError("students must be a pandas DataFrame")
         self._students = val
+    @property
+    def chrome_data_dir(self) -> str:
+        return self._chrome_data_dir
+
+    @chrome_data_dir.setter
+    def chrome_data_dir(self, val: str):
+        if not isinstance(val, str):
+            raise ValueError("chrome_data_dir must be a string")
+        self._chrome_data_dir = val
