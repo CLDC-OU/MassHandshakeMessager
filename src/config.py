@@ -26,6 +26,8 @@ class Config:
         self.load_config()
         self.load_students()
         self.load_message()
+        self.load_selenium()
+
     def load_message(self):
         logging.info("loading message file")
         try:
@@ -89,6 +91,25 @@ class Config:
 
         self.index = 0
         self.modified = []
+
+    def load_selenium(self):
+        logging.debug("Initializing Selenium...")
+        # Set PATH environmental variable to chromedriver-win64
+
+        os.environ["PATH"] += self.chromedriver_path
+        logging.debug("Added environmental Path")
+
+        chrome_options = webdriver.ChromeOptions()
+        # args = ["--start-minimized", "--headless=new", "--disable-popup-blocking"]
+        args = ["--disable-popup-blocking"]
+        for arg in args:
+            chrome_options.add_argument(arg)
+        # Create a new instance of the Chrome driver
+        self._webdriver = webdriver.Chrome(options=chrome_options)
+
+        logging.debug(f"Initialized new Chrome webdriver instance with the"
+                      f"following arguments: [{', '.join(args)}]")
+        logging.info("Chrome webdriver initialized")
 
     def set_config(self, config):
 
