@@ -52,7 +52,24 @@ class Messager:
         pass
 
     def click_message_button(self):
-        pass
+        message_button = self.get_message_button()
+        logging.debug("Found message button")
+        actions = ActionChains(self.config.webdriver)
+        actions.move_to_element(message_button).perform()
+        # self.config.webdriver.execute_script(
+        #     "arguments[0].scrollIntoView();", message_button)
+        logging.debug("Scrolled to message button")
+        message_button.click()
+        logging.debug("Clicked message button")
+
+    def get_message_button(self):
+        button = self.wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//a[contains(@href,"send-message")]')
+            )
+        )
+        return button
+        # return button.find_element(By.XPATH, "./..")
 
     def paste_message(self, message):
         pass
