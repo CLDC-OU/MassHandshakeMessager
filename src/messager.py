@@ -11,9 +11,10 @@ class Messager:
         self.wait = 15
 
     def send_message_to_student(self, student: Student, message):
+        parsed_message = self.parse_message(student, message)
+
         self.open_student_page(student)
         self.click_message_button()
-        parsed_message = self.parse_message(student, message)
         self.paste_message(parsed_message)
         self.click_send()
 
