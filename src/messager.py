@@ -72,7 +72,10 @@ class Messager:
         # return button.find_element(By.XPATH, "./..")
 
     def paste_message(self, message):
-        pass
+        actions = ActionChains(self.config.webdriver)
+        actions.click(self.get_subject_field()).perform()
+        actions.send_keys(Keys.TAB).perform()
+        actions.send_keys(message).perform()
 
     def paste_subject(self, subject):
         if subject is None or subject == "":
