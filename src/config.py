@@ -86,6 +86,8 @@ class Config:
         try:
             with open(self.student_csv_file) as students:
                 self.students = pd.read_csv(students)
+                logging.info(f"Found {len(self.students)} students in "
+                             f"{self.student_csv_file}")
         except FileNotFoundError:
             message = f"Could not find file " \
                 f"{self.student_csv_file}. " \
@@ -94,8 +96,6 @@ class Config:
             logging.error(message)
             print(message)
             exit(1)
-
-        self.verify_students()
 
     def load_selenium(self):
         logging.debug("Initializing Selenium...")
@@ -180,17 +180,6 @@ class Config:
         self.chromedriver_path = config['chromedriver_path']
         self.message_subject = config['message_subject']
         self.chrome_data_dir = config['chrome_data_dir']
-
-    def verify_students(self):
-        if 'handshake_id' not in self.students.columns:
-            message = f"Could not find column 'handshake_id' in " \
-                f"{self.student_csv_file}. " \
-                f"Please ensure this column exists and try again."
-            logging.error(message)
-            print(message)
-            exit(1)
-        logging.info(f"Found {len(self.students)} students in "
-                     f"{self.student_csv_file}")
 
     def has_next_student(self):
         return self.index < len(self.students)
