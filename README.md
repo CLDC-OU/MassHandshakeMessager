@@ -52,6 +52,10 @@ pip install -r requirements.txt
 
 This is the list of students to send the message to. Only the students Handshake ID is required to be in the csv. Other columns are optional.
 
+- `handshake_id` (int): The student's Handshake ID. This is the only required column.
+
+Any additional columns will be used as variables in the message. For example: if you have a column called `first_name`, you can use `{first_name}` in the message and it will be replaced with the value of the `first_name` column for the student the message is being sent to.
+
 > [!IMPORTANT]
 >
 > Be sure to use the Handshake ID, NOT the student's card id. The Handshake ID is the number in the url when viewing a student's profile. For example: `https://app.joinhandshake.com/users/12345678` has a Handshake ID of `12345678`.
