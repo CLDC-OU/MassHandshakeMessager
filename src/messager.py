@@ -57,6 +57,14 @@ class Messager:
                 message=self.config.message,
                 retries=self.config.max_retries
             )
+
+            self.update_time_running()
+            logging.debug("Finished attempt to send message to "
+                          f"{student.student_id}"
+                          f"\n\tTime running: {self.time_running}s"
+                          f"\n\tResult: "
+                          f"{'Success' if send_success else 'Fail'}")
+            self.update_message_conditions()
     def send_message_with_retry(self,
                                 student: Student,
                                 message: str,
