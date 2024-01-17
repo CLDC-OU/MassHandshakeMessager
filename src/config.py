@@ -14,6 +14,7 @@ DEFAULT_CONFIG = {
     "max_messages": -1,
     "max_time": "1h",
     "min_delay": 15,
+    "random_delay": 5,
     "max_timeout": 30,
     "max_retries": 5,
     "handshake_url": "https://app.joinhandshake.com/edu",
