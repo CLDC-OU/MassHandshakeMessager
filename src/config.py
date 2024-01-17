@@ -1,11 +1,13 @@
 import json
 import logging
 import os
+import random
 import pandas as pd
 import dotenv
 from selenium import webdriver
 
 from src.types.student import Student
+from src.utils import time_str_to_seconds
 
 DEFAULT_CONFIG = {
     "student_csv_file": "students.csv",
@@ -230,6 +232,11 @@ class Config:
         with open('modified.json', 'w') as mod:
             json.dump(self.modified, mod, indent=4)
         logging.info(f"Saved {len(self.modified)} modified students to {mod}")
+
+    def get_rand_delay_time(self):
+        delay = self.min_delay + random.randint(0, self.random_delay)
+        logging.debug(f"Random delay time: {delay}s")
+        return delay
 
     @property
     def index(self) -> int:
