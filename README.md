@@ -69,10 +69,13 @@ Create a file in the root of the project directory called `config.json` and set 
 - `max_time` (string): The maximum time this script should run before quitting. Set to -1 to allow any amount of time. (Default: `"1h"`)
   - Allowed time units: `s`, `m`, `h`
 - `min_delay` (int): The minimum time in seconds between sent messages. For example: if the first message is sent in 5 seconds, the program will wait 10 seconds before sending the next message (site loading times are included in this wait time). There will be no wait time between messages that took more than the configured time to send. (Default: `15`)
+- `random_delay` (int): The maximum random time in seconds to add to the minimum delay. For example: if the minimum delay is 10 seconds and the random delay is 5 seconds, the program will wait between 10 and 15 seconds between messages. (Default: `5`)
 - `max_timeout` (int): The maximum time in seconds to wait for a page to load. If the process of sending a message takes longer than this time, either retry or quit execution. (Default: `30`)
 - `max_retries` (int): The maximum number of times to retry sending a message before quitting execution. (Default: `5`)
 - `handshake_url` (string): The url of the handshake instance to use. (Default: `"https://app.joinhandshake.com"`)
 - `chromedriver_dir` (string): The filepath to the directory where the chromedriver executable is (chromedriver.exe). Can be an absolute or relative path. (Default: `"chromedriver-win64"`)
+- `message_subject` (string | None): The subject of the message to send to students. (Default: `None`, uses Handshake's default subject of "{First Name} from {School} has sent you a message")
+- `chrome_data_dir` (string): The filepath to the directory where the chrome user data is stored. Can be an absolute or relative path. See more information in the [Chrome User Data Directory](#chrome-user-data-directory) section. (Default: `"%HOMEPATH%\\AppData\\Local\\Google\\Chrome\\User Data"`)
 
 ### message.txt
 
