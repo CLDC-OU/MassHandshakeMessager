@@ -279,14 +279,9 @@ class Config:
     def max_time(self, val: str):
         if not isinstance(val, str):
             raise ValueError("max_time must be a string")
-        if "h" not in val and "m" not in val:
-            raise ValueError("max_time must be in the format 1h or 1m")
-        if "m" in val:
-            vals = val.split("m")
-            self._max_time = int(vals[0]) * 60
-        else:
-            vals = val.split("h")
-            self._max_time = int(vals[0]) * 3600
+        if "h" not in val and "m" not in val and "s" not in val:
+            raise ValueError("max_time must be in the format Xh, Xm, or Xs")
+        self._max_time = time_str_to_seconds(val)
 
     @property
     def min_delay(self) -> int:
