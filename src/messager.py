@@ -164,16 +164,11 @@ class Messager:
 
         return variable_message
 
-    def open_handshake(self):
-        pass
-
     def click_message_button(self):
         message_button = self.get_message_button()
         logging.debug("Found message button")
         actions = ActionChains(self.config.webdriver)
         actions.move_to_element(message_button).perform()
-        # self.config.webdriver.execute_script(
-        #     "arguments[0].scrollIntoView();", message_button)
         logging.debug("Scrolled to message button")
         message_button.click()
         logging.debug("Clicked message button")
@@ -185,7 +180,6 @@ class Messager:
             )
         )
         return button
-        # return button.find_element(By.XPATH, "./..")
 
     def paste_message(self, message):
         actions = ActionChains(self.config.webdriver)
