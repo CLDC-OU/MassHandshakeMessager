@@ -16,7 +16,7 @@ class Messager:
     def __init__(self):
         self.config = Config()
         self.config.load()
-        self.wait = 15
+        self.wait = self.config.max_timeout
 
     def run(self):
         while self.config.has_next_student():
