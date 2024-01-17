@@ -46,6 +46,76 @@ class Messager:
                 logging.info("No more students to message")
                 break
             self.send_message_to_student(student, self.config.message)
+    def send_message_with_retry(self,
+                                student: Student,
+                                message: str,
+                                retries: int
+                                ):
+        max_retries = retries
+        success = False
+        while success is not True and retries > 0:
+            message_time = time.time()
+            logging.debug(f"Starting attempt {max_retries-retries+1} to send "
+                          f"message to {student.student_id}...")
+            try:
+                self.send_message_to_student(student, message)
+                success = True
+                self.messages_sent += 1
+            except Exception as e:
+                retries -= 1
+                self.times_failed += 1
+                logging.error(f"Error sending message to "
+                              f"{student.student_id}\n{e}"
+                              f"\n\tRemaining retries: "
+                              f"{retries}")
+
+            message_time = time.time() - message_time
+            sleep_time = self.config.get_rand_delay_time() - (message_time)
+
+            self.update_time_running()
+            self.update_message_conditions()
+
+            if sleep_time < 0:
+                sleep_time = 0
+            if success and not self.has_more_students:
+                sleep_time = 0
+            if not self.has_more_time:
+                sleep_time = 0
+            if success and not self.has_more_messages:
+                sleep_time = 0
+
+            res = ""
+            if success:
+                res += f"Message sent to {student.student_id} " \
+                    f"after {max_retries-retries+1} attempt" \
+                    f"{'s' if max_retries-retries > 0 else ''}" \
+                    f"\n\tTook {message_time}s to send" \
+                    f"\n\t{self.messages_sent} message" \
+                    f"{'s' if self.messages_sent > 1 else ''} sent so far"
+                self.time_sending += message_time
+                if sleep_time > 0:
+                    res += f"\n\tWaiting {sleep_time}s before sending " \
+                        f"the next message..."
+                logging.debug(res)
+            else:
+                res += f"Message failed to send to {student.student_id}" \
+                    f"\n\tTook {message_time}s to fail" \
+                    f"\n\t{max_retries-retries+1} times tried so far"
+                self.time_retrying += message_time
+                if sleep_time > 0:
+                    res += f"\n\tWaiting {sleep_time}s before retrying..."
+                logging.warning(res)
+
+            if not self.has_more_time:
+                break
+            time.sleep(sleep_time)
+
+        if not success:
+            self.messages_failed += 1
+        return success
+
+    def update_time_running(self):
+        self.time_running = time.time() - self.start_time
 
     def send_message_to_student(self, student: Student, message):
         parsed_message = self.parse_message(student, message)
