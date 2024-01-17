@@ -134,6 +134,10 @@ class Config:
             config=config,
             key='min_delay'
         )
+        self.random_delay = self.get_config_val_of(
+            config=config,
+            key='random_delay'
+        )
         self.max_timeout = self.get_config_val_of(
             config=config,
             key='max_timeout'
@@ -293,6 +297,16 @@ class Config:
         if not isinstance(val, int):
             raise ValueError("min_delay must be an integer")
         self._min_delay = val
+
+    @property
+    def random_delay(self) -> int:
+        return self._random_delay
+
+    @random_delay.setter
+    def random_delay(self, val: int):
+        if not isinstance(val, int):
+            raise ValueError("random_delay must be an integer")
+        self._random_delay = val
 
     @property
     def max_timeout(self) -> int:
