@@ -36,7 +36,12 @@ class Messager:
         self.start_time = time.time()
         self.time_running = 0
         self.messages_sent = 0
+        self.messages_failed = 0
+        self.times_failed = 0
+        self.time_sending = 0
+        self.time_retrying = 0
         self.update_message_conditions()
+
         # === Send Messages ===
         while (self.has_more_students and
                self.has_more_time and
