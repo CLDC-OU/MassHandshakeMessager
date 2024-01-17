@@ -151,7 +151,8 @@ class Messager:
                 student_data = student.get_student_data(split_variable[0])
                 if student_data is not None:
                     logging.debug(
-                        f"Replacing [{split_variable[0]}] with {student_data}")
+                        f"Replacing [{split_variable[0]}] with "
+                        f"\"{student_data}\"")
                     variable_message += student_data
                     variable_message += split_variable[1]
                 else:
