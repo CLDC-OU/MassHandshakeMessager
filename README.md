@@ -4,8 +4,41 @@ Automate Career Services sending mass messages to students on [Handshake](https:
 
 ## Setup
 
-1. Ensure all [Dependencies](#dependencies) have been installed
-2. Setup [Configuration](#configuration)
+1. Login to Handshake in a Chrome browser instance
+2. Ensure all [Dependencies](#dependencies) have been installed
+3. Complete the [Configuration](#configuration)
+
+## Chrome User Data Directory
+
+To eliminate the need to store login credentials in a config file (and risk getting locked behind 2FA), this script will inject a specified user data directory into a new instance of Chrome already signed in to Handshake to use for sending messages. This new instance of Chrome will be completely separate from the normal instance used for browsing and will be deleted after the script is run to ensure there are no external effects.
+
+> [!IMPORTANT]
+>
+> Make sure you are logged in to Handshake in the correct instance of Chrome being used for the data directory before running the script.
+
+By default, Chrome stores user data in the following directories: `%HOMEPATH%\AppData\Local\Google\Chrome\User Data` on Windows and `~/Library/Application Support/Google/Chrome` on Mac.
+
+It is recommended to use a custom Chrome user data directory for this script. This will ensure that any changes to your browser settings that might occur during normal browsing (cookies, logins, etc.) will not affect the script.
+
+> [!NOTE]
+>
+> You can find the directory of your Chrome instance by going to `chrome://version` in the address bar of your Chrome instance and looking for the `Profile Path` property.
+
+### Default Chrome User Data Directory
+
+If you are using the default Chrome user data directory (i.e., the same Chrome browser you use for normal browsing), make sure to set the `chrome_data_dir` property in the `config.json` file to the correct directory for your operating system (more information in [Configuration](#configuration)).
+
+> [!WARNING]
+>
+> If you are using the default Chrome user data directory, you must make sure you are logged in to Handshake to the right account on the Career Services side before running the script. If you are logged in to the wrong account, you will be sending messages from the wrong account.
+
+### Custom Chrome User Data Directory
+
+If you are using a custom Chrome instance, make sure to set the `chrome_data_dir` property in the `config.json` file to the correct directory of your Chrome user data (more information in [Configuration](#configuration)).
+
+> [!NOTE]
+>
+> You can create a new Chrome instance by creating a new directory and running Chrome with the `--user-data-dir` flag. For example: `chrome.exe --user-data-dir="C:\Chrome User Data"` on Windows or `open -a "Google Chrome" --args --user-data-dir="/Chrome User Data"` on Mac.
 
 ## Dependencies
 
