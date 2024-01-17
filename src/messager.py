@@ -48,7 +48,7 @@ class Messager:
                self.has_more_messages):
             student = self.config.get_next_student()
             if student == -1:
-                logging.info("No more students to message")
+                logging.debug("No more students to message")
                 break
             self.send_message_to_student(student, self.config.message)
     def send_message_with_retry(self,
