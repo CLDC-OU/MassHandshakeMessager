@@ -18,8 +18,29 @@ class Messager:
         self.config.load()
         self.wait = self.config.max_timeout
 
+    def update_message_conditions(self):
+        self.has_more_students = self.config.has_next_student()
+        self.has_more_time = (
+            self.config.max_time == -1
+        ) or (
+            self.time_running < self.config.max_time
+        )
+        self.has_more_messages = (
+            self.config.max_messages == -1
+        ) or (
+            self.messages_sent < self.config.max_messages
+        )
+
     def run(self):
-        while self.config.has_next_student():
+        logging.debug("Starting messager...")
+        self.start_time = time.time()
+        self.time_running = 0
+        self.messages_sent = 0
+        self.update_message_conditions()
+        # === Send Messages ===
+        while (self.has_more_students and
+               self.has_more_time and
+               self.has_more_messages):
             student = self.config.get_next_student()
             if student == -1:
                 logging.info("No more students to message")
