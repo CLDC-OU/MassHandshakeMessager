@@ -156,8 +156,8 @@ class Messager:
                     variable_message += student_data
                     variable_message += split_variable[1]
                 else:
-                    logging.warn(f"Student {student.student_id} does not have "
-                                 f"variable {split_variable[0]}")
+                    logging.warning(f"Student {student.student_id} does not "
+                                    f"have variable [{split_variable[0]}]")
                     variable_message += split_variable[1]
             else:
                 variable_message += split_variables[i]
