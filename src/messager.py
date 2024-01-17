@@ -123,8 +123,14 @@ class Messager:
         self.open_student_page(student)
         self.click_message_button()
 
-        # wait 1 second for modal to load
-        time.sleep(1)
+        # wait for modal to load
+        self.wait.until(
+            EC.visibility_of_element_located(
+                (By.ID, "modal-title")
+            )
+        )
+
+        # time.sleep(1)
 
         self.paste_subject(self.config.message_subject)
         self.paste_message(parsed_message)
