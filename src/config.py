@@ -118,68 +118,57 @@ class Config:
         logging.info("Chrome webdriver initialized")
 
     def set_config(self, config):
+        self.student_csv_file = self.get_config_val_of(
+            config=config,
+            key='student_csv_file'
+        )
+        self.max_messages = self.get_config_val_of(
+            config=config,
+            key='max_messages'
+        )
+        self.max_time = self.get_config_val_of(
+            config=config,
+            key='max_time'
+        )
+        self.min_delay = self.get_config_val_of(
+            config=config,
+            key='min_delay'
+        )
+        self.max_timeout = self.get_config_val_of(
+            config=config,
+            key='max_timeout'
+        )
+        self.max_retries = self.get_config_val_of(
+            config=config,
+            key='max_retries'
+        )
+        self.handshake_url = self.get_config_val_of(
+            config=config,
+            key='handshake_url'
+        )
+        self.chromedriver_path = self.get_config_val_of(
+            config=config,
+            key='chromedriver_path'
+        )
+        self.message_subject = self.get_config_val_of(
+            config=config,
+            key='message_subject'
+        )
+        self.chrome_data_dir = self.get_config_val_of(
+            config=config,
+            key='chrome_data_dir'
+        )
 
-        if 'student_csv_file' not in config:
-            logging.warning(f"Could not find student_csv_file in "
+    def get_config_val_of(self, config, key):
+        if key not in DEFAULT_CONFIG:
+            logging.error(f"Invalid config key {key}. "
+                          f"This key will be skipped.")
+        if key not in config:
+            logging.warning(f"Could not find {key} in "
                             f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['student_csv_file']}")
-            config['student_csv_file'] = DEFAULT_CONFIG['student_csv_file']
-        if 'max_messages' not in config:
-            logging.warning(f"Could not find max_messages in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['max_messages']}")
-            config['max_messages'] = DEFAULT_CONFIG['max_messages']
-        if 'max_time' not in config:
-            logging.warning(f"Could not find max_time in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['max_time']}")
-            config['max_time'] = DEFAULT_CONFIG['max_time']
-        if 'min_delay' not in config:
-            logging.warning(f"Could not find min_delay in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['min_delay']}")
-            config['min_delay'] = DEFAULT_CONFIG['min_delay']
-        if 'max_timeout' not in config:
-            logging.warning(f"Could not find max_timeout in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['max_timeout']}")
-            config['max_timeout'] = DEFAULT_CONFIG['max_timeout']
-        if 'max_retries' not in config:
-            logging.warning(f"Could not find max_retries in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['max_retries']}")
-            config['max_retries'] = DEFAULT_CONFIG['max_retries']
-        if 'handshake_url' not in config:
-            logging.warning(f"Could not find handshake_url in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['handshake_url']}")
-            config['handshake_url'] = DEFAULT_CONFIG['handshake_url']
-        if 'chromedriver_path' not in config:
-            logging.warning(f"Could not find chromedriver_path in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['chromedriver_path']}")
-            config['chromedriver_path'] = DEFAULT_CONFIG['chromedriver_path']
-        if 'message_subject' not in config or config['message_subject'] == "":
-            logging.warning(f"Could not find message_subject in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['message_subject']}")
-            config['message_subject'] = DEFAULT_CONFIG['message_subject']
-        if 'chrome_data_dir' not in config or config['chrome_data_dir'] == "":
-            logging.warning(f"Could not find chrome_data_dir in "
-                            f"config.json. Setting to default: "
-                            f"{DEFAULT_CONFIG['chrome_data_dir']}")
-            config['chrome_data_dir'] = DEFAULT_CONFIG['chrome_data_dir']
-
-        self.student_csv_file = config['student_csv_file']
-        self.max_messages = config['max_messages']
-        self.max_time = config['max_time']
-        self.min_delay = config['min_delay']
-        self.max_timeout = config['max_timeout']
-        self.max_retries = config['max_retries']
-        self.handshake_url = config['handshake_url']
-        self.chromedriver_path = config['chromedriver_path']
-        self.message_subject = config['message_subject']
-        self.chrome_data_dir = config['chrome_data_dir']
+                            f"{DEFAULT_CONFIG[key]}")
+            config[key] = DEFAULT_CONFIG[key]
+        return config[key]
 
     def has_next_student(self):
         return self.index < len(self.students)
