@@ -79,4 +79,20 @@ Create a file in the root of the project directory called `config.json` and set 
 
 ### message.txt
 
-Create a file in the root of the project directory called `message.txt` and write the message you want to send to students. The message can be written in markdown and will be sent as a single paragraph. You can include any variable in the message with the name of the column from the students csv file surrounded by curly braces. For example: `{first_name}` will be replaced with the value of the `first_name` column for the student the message is being sent to.
+Create a file in the root of the project directory called `message.txt`. This file will include the message you want to send to students.
+
+Rules/information for the message file:
+
+- Must be a plain text file
+- Can be any length
+- Will include line breaks as they are in the file
+- Any links will be automatically turned into hyperlinks
+- Avoid curly braces (`{}`) unless you are using them to surround a variable name (see below for more information)
+
+You can also include any variable in the message with the name of the column from the students csv file surrounded by curly braces. For example: `{first_name}` will be replaced with the value of the `first_name` column for the student the message is being sent to.
+
+> [!IMPORTANT]
+>
+> Do not use curly braces in the message unless you are using them to surround a variable name. For example: `{first_name}` is valid, but `{{first_name}}` is not. If you need to use curly braces in the message, use double curly braces. For example: `{{this is a message}}` will be sent as `{this is a message}`.
+>
+> If you use a variable name in the message, but the column does not exist in the students csv file, the variable will be discarded. For example `Hello {invalid_column}, this is a message` will be sent as `Hello , this is a message`.
