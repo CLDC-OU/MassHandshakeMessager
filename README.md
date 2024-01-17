@@ -4,7 +4,7 @@ Automate Career Services sending mass messages to students on [Handshake](https:
 
 ## Setup
 
-1. Login to Handshake in a Chrome browser instance
+1. Setup the [Chrome User Data Directory](#chrome-user-data-directory)
 2. Ensure all [Dependencies](#dependencies) have been installed
 3. Complete the [Configuration](#configuration)
 
