@@ -1,5 +1,24 @@
 # MassHandshakeMessager - Change Log
 
+## Version 0.1.1 (Not Released Yet)
+
+### Major Feature Changes
+
+### Minor Feature Changes
+
+---
+
+- Added console logging for each message sent
+- Multiply the success rate by 100 to represent a percentage
+
+### Bug Fixes
+
+---
+
+- Fixed bug where script logged one more than the amount of times retried for a failed message
+- Fixed bug where message was only partially typed in the message box by the time the script tried to send it (rubber banding)
+- Fixed unintended behavior where script would take 5 minutes to retry if the page failed to load
+
 ## Version 0.1.0 (2024-01-19)
 
 ### Major Feature Changes
