@@ -191,7 +191,7 @@ class Messager:
             else:
                 res += f"Message failed to send to {student.student_id}" \
                     f"\n\tTook {message_time}s to fail" \
-                    f"\n\t{max_retries-retries+1} times tried so far"
+                    f"\n\t{max_retries-retries} times tried so far"
                 self.time_retrying += message_time
                 if sleep_time > 0:
                     res += f"\n\tWaiting {sleep_time}s before retrying..."
