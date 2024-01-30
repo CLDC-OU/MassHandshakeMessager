@@ -108,13 +108,23 @@ class Config:
         logging.debug("Added environmental Path")
 
         chrome_options = webdriver.ChromeOptions()
-        # args = ["--start-minimized", "--headless=new", "--disable-popup-blocking"]
-        args = ["--disable-popup-blocking"]
+        args = [
+            "--start-minimized",
+            "--headless=new",
+            "--disable-popup-blocking",
+            "enable-automation",
+            "--no-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-browser-side-navigation",
+            "--disable-gpu",
+            "--disable-extensions"
+        ]
         for arg in args:
             chrome_options.add_argument(arg)
         chrome_options.add_argument(f"user-data-dir={self.chrome_data_dir}")
         # Create a new instance of the Chrome driver
         self.webdriver = webdriver.Chrome(options=chrome_options)
+        self.webdriver.set_page_load_timeout(self.max_timeout)
 
         logging.debug(f"Initialized new Chrome webdriver instance with the"
                       f"following arguments: [{', '.join(args)}]")
