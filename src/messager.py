@@ -188,6 +188,8 @@ class Messager:
                     res += f"\n\tWaiting {sleep_time}s before sending " \
                         f"the next message..."
                 logging.debug(res)
+                print(f"Message successfully sent to "
+                      f"{student.student_id} ({self.config.index})")
             else:
                 res += f"Message failed to send to {student.student_id}" \
                     f"\n\tTook {message_time}s to fail" \
@@ -196,6 +198,8 @@ class Messager:
                 if sleep_time > 0:
                     res += f"\n\tWaiting {sleep_time}s before retrying..."
                 logging.warning(res)
+                print(f"Message failed to send to "
+                      f"{student.student_id} ({self.config.index})")
 
             if not self.has_more_time:
                 break
