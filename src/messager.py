@@ -229,6 +229,7 @@ class Messager:
 
         self.paste_subject(self.config.message_subject)
         self.paste_message(parsed_message)
+        time.sleep(0.5)
         self.click_send()
 
     def open_student_page(self, student: Student):
