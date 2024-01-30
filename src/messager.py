@@ -104,7 +104,7 @@ class Messager:
             if self.times_failed > 0 else 0
         success_rate = self.messages_sent / (
             self.messages_sent + self.messages_failed
-        ) if self.messages_sent + self.messages_failed > 0 else 0
+        ) * 100 if self.messages_sent + self.messages_failed > 0 else 0
 
         res = f"Finished after {time_seconds_to_str(self.time_running)} " \
             f"with reason: {get_stop_cause()}"
