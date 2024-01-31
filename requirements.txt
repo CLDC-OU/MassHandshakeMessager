@@ -2,3 +2,4 @@ pyparsing
 selenium
 python-dotenv
 pandas
+colorama

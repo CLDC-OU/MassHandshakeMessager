@@ -11,6 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
+from colorama import Fore, Style
+
 from src.utils import time_seconds_to_str
 
 
@@ -188,8 +190,9 @@ class Messager:
                     res += f"\n\tWaiting {sleep_time}s before sending " \
                         f"the next message..."
                 logging.debug(res)
-                print(f"Message successfully sent to "
-                      f"{student.student_id} ({self.config.index})")
+                print(Fore.GREEN + f"Message successfully sent to "
+                      f"{student.student_id} ({self.config.index})"
+                      + Style.RESET_ALL)
             else:
                 res += f"Message failed to send to {student.student_id}" \
                     f"\n\tTook {message_time}s to fail" \
@@ -198,9 +201,9 @@ class Messager:
                 if sleep_time > 0:
                     res += f"\n\tWaiting {sleep_time}s before retrying..."
                 logging.warning(res)
-                print(f"Message failed to send to "
-                      f"{student.student_id} ({self.config.index})")
-
+                print(Fore.RED + f"Message failed to send to "
+                      f"{student.student_id} ({self.config.index})"
+                      + Style.RESET_ALL)
             if not self.has_more_time:
                 break
             time.sleep(sleep_time)
