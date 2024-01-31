@@ -1,5 +1,7 @@
 
+import json
 import logging
+import os
 import time
 from src.config import Config
 from src.types.student import Student
@@ -38,18 +40,23 @@ class Messager:
     def run(self):
         logging.debug("Starting messager...")
         self.start_time = time.time()
-        self.time_running = 0
-        self.messages_sent = 0
-        self.messages_failed = 0
-        self.times_failed = 0
-        self.time_sending = 0
-        self.time_retrying = 0
+        self.load_stats()
         self.update_message_conditions()
+        counter = 0
 
         # === Send Messages ===
         while (self.has_more_students and
                self.has_more_time and
                self.has_more_messages):
+            counter += 1
+            if counter % 10 == 0:
+                message = f"Script has been running for {counter} " \
+                    f"iterations, saving stats to file and resetting " \
+                    f"webdriver..."
+                logging.info(message)
+                print(Fore.YELLOW + message + Style.RESET_ALL)
+                self.update_stats()
+
             student = self.config.get_next_student()
             if student == -1:
                 logging.debug("No more students to message")
@@ -70,6 +77,7 @@ class Messager:
                           f"{'Success' if send_success else 'Fail'}")
             self.update_message_conditions()
 
+        self.update_stats()
         # === Report Results ===
 
         # Determines the reason for stopping the send message loop
@@ -315,6 +323,51 @@ class Messager:
             By.XPATH,
             "//a[contains(@data-bind, 'click: createConversation')]"
         )
+
+    def update_stats(self):
+        stats = {
+            "time_running": self.time_running,
+            "messages_sent": self.messages_sent,
+            "messages_failed": self.messages_failed,
+            "times_failed": self.times_failed,
+            "time_sending": self.time_sending,
+            "time_retrying": self.time_retrying
+        }
+        with open("stats.json", "w") as f:
+            f.write(json.dumps(stats, indent=4))
+            f.close()
+
+    def load_stats(self):
+        if not os.path.exists("stats.json"):
+            print(Fore.CYAN
+                  + "Stats file not found, creating "
+                  + Fore.BLUE + "stats.json" + Fore.CYAN + "..."
+                  + Style.RESET_ALL)
+            with open("stats.json", "w") as f:
+                f.write(json.dumps(
+                    {
+                        "time_running": 0,
+                        "messages_sent": 0,
+                        "messages_failed": 0,
+                        "times_failed": 0,
+                        "time_sending": 0,
+                        "time_retrying": 0
+                    },
+                    indent=4
+                ))
+                f.close()
+        print(Fore.CYAN + "Loading stats file..." + Style.RESET_ALL)
+        with open("stats.json", "r") as f:
+            stats = json.loads(f.read())
+            self.time_running = stats["time_running"]
+            self.messages_sent = stats["messages_sent"]
+            self.messages_failed = stats["messages_failed"]
+            self.times_failed = stats["times_failed"]
+            self.time_sending = stats["time_sending"]
+            self.time_retrying = stats["time_retrying"]
+            f.close()
+        print(Fore.CYAN + "Stats loaded from " +
+              Fore.BLUE + "stats.json" + Style.RESET_ALL)
 
     @property
     def wait(self) -> WebDriverWait:
