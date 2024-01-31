@@ -333,7 +333,8 @@ class Messager:
             "messages_failed": self.messages_failed,
             "times_failed": self.times_failed,
             "time_sending": self.time_sending,
-            "time_retrying": self.time_retrying
+            "time_retrying": self.time_retrying,
+            "current_position": self.config.index,
         }
         with open("stats.json", "w") as f:
             f.write(json.dumps(stats, indent=4))
@@ -353,7 +354,8 @@ class Messager:
                         "messages_failed": 0,
                         "times_failed": 0,
                         "time_sending": 0,
-                        "time_retrying": 0
+                        "time_retrying": 0,
+                        "current_position": 0
                     },
                     indent=4
                 ))
@@ -366,7 +368,8 @@ class Messager:
             self.messages_failed = stats["messages_failed"]
             self.times_failed = stats["times_failed"]
             self.time_sending = stats["time_sending"]
-            self.time_retrying = stats["time_retrying"]
+            self.time_retrying = stats["time_retrying"],
+            self.config.index = stats["current_position"]
             f.close()
         print(Fore.CYAN + "Stats loaded from " +
               Fore.BLUE + "stats.json" + Style.RESET_ALL)
