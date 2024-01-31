@@ -56,6 +56,8 @@ class Messager:
                 logging.info(message)
                 print(Fore.YELLOW + message + Style.RESET_ALL)
                 self.update_stats()
+                self.config.reset_webdriver()
+                self.wait = self.config.max_timeout
 
             student = self.config.get_next_student()
             if student == -1:

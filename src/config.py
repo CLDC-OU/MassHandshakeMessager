@@ -130,6 +130,10 @@ class Config:
                       f"following arguments: [{', '.join(args)}]")
         logging.info("Chrome webdriver initialized")
 
+    def reset_webdriver(self):
+        self.webdriver.quit()
+        self.load_selenium()
+
     def set_config(self, config):
         self.student_csv_file = self.get_config_val_of(
             config=config,
