@@ -73,7 +73,7 @@ class Messager:
 
             self.update_time_running()
             logging.debug("Finished attempt to send message to "
-                          f"{student.student_id}"
+                          f"{student.student_id} ({self.config.index})"
                           f"\n\tTime running: {self.time_running}s"
                           f"\n\tResult: "
                           f"{'Success' if send_success else 'Fail'}")
@@ -167,8 +167,8 @@ class Messager:
             except Exception as e:
                 retries -= 1
                 self.times_failed += 1
-                logging.error(f"Error sending message to "
-                              f"{student.student_id}\n{e}"
+                logging.error(f"Error sending message to {student.student_id} "
+                              f"({self.config.index})\n{e}"
                               f"\n\tRemaining retries: "
                               f"{retries}")
 
@@ -189,9 +189,9 @@ class Messager:
 
             res = ""
             if success:
-                res += f"Message sent to {student.student_id} " \
-                    f"after {max_retries-retries+1} attempt" \
-                    f"{'s' if max_retries-retries > 0 else ''}" \
+                res += f"Message successfully sent to {student.student_id} " \
+                    f"({self.config.index}) after {max_retries-retries+1} " \
+                    f"attempt{'s' if max_retries-retries > 0 else ''}" \
                     f"\n\tTook {message_time}s to send" \
                     f"\n\t{self.messages_sent} message" \
                     f"{'s' if self.messages_sent > 1 else ''} sent so far"
@@ -204,8 +204,8 @@ class Messager:
                       f"{student.student_id} ({self.config.index})"
                       + Style.RESET_ALL)
             else:
-                res += f"Message failed to send to {student.student_id}" \
-                    f"\n\tTook {message_time}s to fail" \
+                res += f"Message failed to send to {student.student_id} " \
+                    f"({self.config.index})\n\tTook {message_time}s to fail" \
                     f"\n\t{max_retries-retries} times tried so far"
                 self.time_retrying += message_time
                 if sleep_time > 0:
