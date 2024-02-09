@@ -15,7 +15,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from colorama import Fore, Style
 
-from src.utils import time_seconds_to_str
+from src.utils import get_stats, get_stats_message, time_seconds_to_str
 
 
 class Messager:
@@ -341,38 +341,9 @@ class Messager:
             f.close()
 
     def load_stats(self):
-        if not os.path.exists("stats.json"):
-            print(Fore.CYAN
-                  + "Stats file not found, creating "
-                  + Fore.BLUE + "stats.json" + Fore.CYAN + "..."
-                  + Style.RESET_ALL)
-            with open("stats.json", "w") as f:
-                f.write(json.dumps(
-                    {
-                        "time_running": 0,
-                        "messages_sent": 0,
-                        "messages_failed": 0,
-                        "times_failed": 0,
-                        "time_sending": 0,
-                        "time_retrying": 0,
-                        "current_position": 0
-                    },
-                    indent=4
-                ))
-                f.close()
-        print(Fore.CYAN + "Loading stats file..." + Style.RESET_ALL)
-        with open("stats.json", "r") as f:
-            stats = json.loads(f.read())
-            self.time_running = stats["time_running"]
-            self.messages_sent = stats["messages_sent"]
-            self.messages_failed = stats["messages_failed"]
-            self.times_failed = stats["times_failed"]
-            self.time_sending = stats["time_sending"]
-            self.time_retrying = stats["time_retrying"],
-            self.config.index = stats["current_position"]
-            f.close()
-        print(Fore.CYAN + "Stats loaded from " +
-              Fore.BLUE + "stats.json" + Style.RESET_ALL)
+        (self.time_running, self.messages_sent, self.messages_failed,
+         self.times_failed, self.time_sending, self.time_retrying,
+         self.config.index) = get_stats()
 
     @property
     def wait(self) -> WebDriverWait:
