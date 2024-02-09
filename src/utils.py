@@ -18,11 +18,11 @@ def time_str_to_seconds(time_str: str):
 
 def time_seconds_to_str(time_seconds: int):
     if time_seconds < 60:
-        return f"{time_seconds}s"
+        return f"{round(time_seconds, 2)}s"
     elif time_seconds < 60 * 60:
-        return f"{time_seconds // 60}m " \
-            f"{time_seconds % 60}s"
+        return f"{int(time_seconds // 60)}m " \
+            f"{round(time_seconds % 60, 2)}s"
     else:
-        return f"{time_seconds // (60 * 60)}h " \
-            f"{(time_seconds % (60 * 60)) // 60}m " \
-            f"{(time_seconds % (60 * 60)) % 60}s"
+        return f"{int(time_seconds // (60 * 60))}h " \
+            f"{(int(time_seconds % (60 * 60)) // 60)}m " \
+            f"{round(time_seconds % (60 * 60) % 60, 2)}s"
