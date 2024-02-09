@@ -116,6 +116,12 @@ class Messager:
         else:
             return "Unknown"
 
+    def send_message_with_retry(
+        self,
+        student: Student,
+        message: str,
+        retries: int
+    ):
         max_retries = retries
         success = False
         while success is not True and retries > 0:
