@@ -383,3 +383,63 @@ class Messager:
         self._wait = WebDriverWait(
             driver=self.config.webdriver,
             timeout=timeout)
+
+    @property
+    def time_running(self) -> float:
+        return self._time_running
+
+    @time_running.setter
+    def time_running(self, time: float):
+        if not isinstance(time, float):
+            raise ValueError(f"Invalid time_running value {time}")
+        self._time_running = time
+
+    @property
+    def messages_sent(self) -> int:
+        return self._messages_sent
+
+    @messages_sent.setter
+    def messages_sent(self, messages: int):
+        if not isinstance(messages, int):
+            raise ValueError(f"Invalid messages_sent value {messages}")
+        self._messages_sent = messages
+
+    @property
+    def messages_failed(self) -> int:
+        return self._messages_failed
+
+    @messages_failed.setter
+    def messages_failed(self, messages: int):
+        if not isinstance(messages, int):
+            raise ValueError(f"Invalid messages_failed value {messages}")
+        self._messages_failed = messages
+
+    @property
+    def times_failed(self) -> int:
+        return self._times_failed
+
+    @times_failed.setter
+    def times_failed(self, times: int):
+        if not isinstance(times, int):
+            raise ValueError(f"Invalid times_failed value {times}")
+        self._times_failed = times
+
+    @property
+    def time_sending(self) -> float:
+        return self._time_sending
+
+    @time_sending.setter
+    def time_sending(self, time: float):
+        if not isinstance(time, float):
+            raise ValueError(f"Invalid time_sending value {time}")
+        self._time_sending = time
+
+    @property
+    def time_retrying(self) -> float:
+        return self._time_retrying
+
+    @time_retrying.setter
+    def time_retrying(self, time: float):
+        if not isinstance(time, float):
+            raise ValueError(f"Invalid time_retrying value {time}")
+        self._time_retrying = time
