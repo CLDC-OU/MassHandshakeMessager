@@ -96,9 +96,11 @@ def update_stats(time_running, messages_sent, messages_failed, times_failed,
     with open("stats.json", "w") as f:
         f.write(json.dumps(stats, indent=4))
         f.close()
-        
+
+
 def backup_stats():
-    time_running, messages_sent, messages_failed, times_failed, time_sending, time_retrying, current_position = get_stats()
+    (time_running, messages_sent, messages_failed, times_failed, time_sending,
+     time_retrying, current_position) = get_stats()
     with open(f"stats_backup_{current_position}.json", "w") as f:
         f.write(json.dumps({
             "time_running": time_running,
@@ -110,7 +112,8 @@ def backup_stats():
             "current_position": current_position,
         }, indent=4))
         f.close()
-    print(f"{Fore.CYAN}Stats backed up to {Fore.BLUE}stats_backup_{current_position}.json{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}Stats backed up to "
+          f"{Fore.BLUE}stats_backup_{current_position}.json{Style.RESET_ALL}")
 
 
 def get_stats_message():
