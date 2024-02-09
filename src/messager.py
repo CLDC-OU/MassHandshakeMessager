@@ -39,8 +39,8 @@ class Messager:
 
     def run(self):
         logging.debug("Starting messager...")
-        self.start_time = time.time()
         self.load_stats()
+        self.start_time = time.time() - self.time_running
         self.update_message_conditions()
         counter = 0
 
