@@ -95,6 +95,27 @@ class Messager:
         stats_message = get_stats_message()
         logging.info(stats_message)
         print(stats_message)
+
+    # Determines the reason for stopping the send message loop
+    def get_stop_cause(self):
+        if not self.has_more_messages:
+            return "No more students to message"
+        elif (
+            self.config.max_time != -1
+        ) and (
+            self.time_running > self.config.max_time
+        ):
+            return f"Max time reached " \
+                f"({time_seconds_to_str(self.config.max_time)})"
+        elif (
+            self.config.max_messages != -1
+        ) and (
+            self.messages_sent > self.config.max_messages
+        ):
+            return f"Max messages sent ({self.config.max_messages})"
+        else:
+            return "Unknown"
+
         max_retries = retries
         success = False
         while success is not True and retries > 0:
