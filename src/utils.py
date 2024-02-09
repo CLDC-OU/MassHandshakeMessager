@@ -32,35 +32,32 @@ def time_seconds_to_str(time_seconds: int):
             f"{round(time_seconds % (60 * 60) % 60, 2)}s"
 
 
-def load_stats():
+def create_stats_file():
     if not os.path.exists("stats.json"):
         print(
-            Fore.CYAN
-            + "Stats file not found, creating "
-            + Fore.BLUE + "stats.json" + Fore.CYAN + "..."
-            + Style.RESET_ALL
+            f"{Fore.CYAN}Stats file "
+            f"({Fore.BLUE}stats.json{Fore.CYAN}) not found..."
+            f"\n{Fore.CYAN}Creating stats file...{Style.RESET_ALL}"
         )
-        with open("stats.json", "w") as f:
-            f.write(json.dumps(
-                {
-                    "time_running": 0,
-                    "messages_sent": 0,
-                    "messages_failed": 0,
-                    "times_failed": 0,
-                    "time_sending": 0,
-                    "time_retrying": 0,
-                    "current_position": 0
-                },
-                indent=4
-            ))
-            f.close()
-    print(Fore.CYAN + "Loading stats file..." + Style.RESET_ALL)
+        update_stats(0, 0, 0, 0, 0, 0, 0)
+    else:
+        print(
+            f"{Fore.CYAN}Stats file "
+            f"({Fore.BLUE}stats.json{Fore.CYAN}) already exists!"
+        )
+
+
+def get_stats():
     time_running = 0
     messages_sent = 0
     messages_failed = 0
     times_failed = 0
     time_sending = 0
     time_retrying = 0
+    current_position = 0
+    if not os.path.exists("stats.json"):
+        create_stats_file()
+    print(Fore.CYAN + "Loading stats file..." + Style.RESET_ALL)
 
     with open("stats.json", "r") as f:
         stats = json.loads(f.read())
@@ -69,7 +66,8 @@ def load_stats():
         messages_failed = stats["messages_failed"]
         times_failed = stats["times_failed"]
         time_sending = stats["time_sending"]
-        time_retrying = stats["time_retrying"]
+        time_retrying = stats["time_retrying"],
+        current_position = stats["current_position"]
         f.close()
     print(Fore.CYAN + "Stats loaded from " +
           Fore.BLUE + "stats.json" + Style.RESET_ALL)
@@ -79,14 +77,46 @@ def load_stats():
         messages_failed,
         times_failed,
         time_sending,
-        time_retrying
+        time_retrying,
+        current_position
     )
+
+
+def update_stats(time_running, messages_sent, messages_failed, times_failed,
+                 time_sending, time_retrying, current_position):
+    stats = {
+        "time_running": time_running,
+        "messages_sent": messages_sent,
+        "messages_failed": messages_failed,
+        "times_failed": times_failed,
+        "time_sending": time_sending,
+        "time_retrying": time_retrying,
+        "current_position": current_position,
+    }
+    with open("stats.json", "w") as f:
+        f.write(json.dumps(stats, indent=4))
+        f.close()
+        
+def backup_stats():
+    time_running, messages_sent, messages_failed, times_failed, time_sending, time_retrying, current_position = get_stats()
+    with open(f"stats_backup_{current_position}.json", "w") as f:
+        f.write(json.dumps({
+            "time_running": time_running,
+            "messages_sent": messages_sent,
+            "messages_failed": messages_failed,
+            "times_failed": times_failed,
+            "time_sending": time_sending,
+            "time_retrying": time_retrying,
+            "current_position": current_position,
+        }, indent=4))
+        f.close()
+    print(f"{Fore.CYAN}Stats backed up to {Fore.BLUE}stats_backup_{current_position}.json{Style.RESET_ALL}")
 
 
 def get_stats_message():
     from src.config import Config
     (time_running, messages_sent, messages_failed,
-     times_failed, time_sending, time_retrying) = load_stats()
+     times_failed, time_sending, time_retrying) = get_stats()
     config = Config()
     config.load_config()
 
