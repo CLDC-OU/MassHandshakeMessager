@@ -80,80 +80,21 @@ class Messager:
             self.update_message_conditions()
 
         self.update_stats()
+
         # === Report Results ===
 
-        # Determines the reason for stopping the send message loop
-        def get_stop_cause():
-            if not self.has_more_messages:
-                return "No more students to message"
-            elif (
-                self.config.max_time != -1
-            ) and (
-                self.time_running > self.config.max_time
-            ):
-                return f"Max time reached " \
-                    f"({time_seconds_to_str(self.config.max_time)})"
-            elif (
-                self.config.max_messages != -1
-            ) and (
-                self.messages_sent > self.config.max_messages
-            ):
-                return f"Max messages sent ({self.config.max_messages})"
-            else:
-                return "Unknown"
-
-        # Log run results
-        time_waited = (
-            self.time_running - self.time_sending-self.time_retrying
+        stop_message = (
+            f"\n{Fore.LIGHTBLUE_EX}Finished after "
+            f"{Fore.LIGHTMAGENTA_EX}{time_seconds_to_str(self.time_running)} "
+            f"{Fore.LIGHTBLUE_EX}with reason: "
+            f"{Fore.LIGHTMAGENTA_EX}{self.get_stop_cause()}\n{Style.RESET_ALL}"
         )
-        avg_send_time = self.time_sending / self.messages_sent \
-            if self.messages_sent > 0 else 0
-        avg_wait_time = (
-            (time_waited) /
-            (self.messages_sent + self.messages_failed)
-        )
-        avg_retry_time = self.time_retrying / self.times_failed \
-            if self.times_failed > 0 else 0
-        success_rate = self.messages_sent / (
-            self.messages_sent + self.messages_failed
-        ) * 100 if self.messages_sent + self.messages_failed > 0 else 0
+        logging.debug(stop_message)
+        print(stop_message)
 
-        res = f"Finished after {time_seconds_to_str(self.time_running)} " \
-            f"with reason: {get_stop_cause()}"
-
-        # Sent Message Results
-        res += "\n\n---- Sent Message Statistics:"
-        res += f"\n\tMessages Sent: {self.messages_sent}" \
-            f"\n\tTime Spent Sending: {self.time_sending}s" \
-            f"\n\tAverage Time to Send: {avg_send_time}s" \
-            f"\n\tSuccess Rate: {success_rate}"
-
-        # Failed Message Results
-        res += "\n\n---- Failed Message Statistics:"
-        res += f"\n\tMessages Failed: {self.messages_failed}" \
-            f"\n\tTimes Failed/Retried: {self.times_failed}" \
-            f"\n\tTime Spent Retrying: {self.time_retrying}s" \
-            f"\n\tAverage Time to Retry: {avg_retry_time}s"
-
-        # Other Results
-        res += "\n\n---- Other Statistics:"
-        res += f"\n\tTime Waited: {time_waited}s" \
-            f"\n\tAverage Wait Time: {avg_wait_time}s"
-        if self.config.max_time != -1:
-            res += f"\n\tRemaining time: " \
-                f"{time_seconds_to_str(
-                    self.config.max_time - self.time_running)}"
-        if self.config.max_messages != -1:
-            res += f"\n\tRemaining messages: " \
-                f"{self.config.max_messages - self.messages_sent}"
-        print(res)
-        logging.info(res)
-
-    def send_message_with_retry(self,
-                                student: Student,
-                                message: str,
-                                retries: int
-                                ):
+        stats_message = get_stats_message()
+        logging.info(stats_message)
+        print(stats_message)
         max_retries = retries
         success = False
         while success is not True and retries > 0:
